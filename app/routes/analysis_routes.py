@@ -1,7 +1,6 @@
 
 # app/routes/analysis_routes.py
 from flask import Blueprint, request, jsonify
-from flask_cors import cross_origin
 from app.core.password_analyzer import PasswordAnalyzer
 from app.models.user_model import AnalysisRecord, db
 from datetime import datetime
@@ -11,7 +10,6 @@ bp = Blueprint('analysis', __name__, url_prefix='/api')
 analyzer = PasswordAnalyzer()
 
 @bp.route('/analyze-password', methods=['POST'])
-@cross_origin()
 def analyze_password():
     """
     Analyze password strength

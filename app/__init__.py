@@ -1,7 +1,6 @@
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_cors import CORS
 import os
 from datetime import datetime
 from app.core.password_analyzer import PasswordAnalyzer
@@ -25,7 +24,6 @@ def create_app(config_name='development'):
     
     # Initialize extensions
     db.init_app(app)
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
     
     # Register blueprints
     from app.routes import web_routes

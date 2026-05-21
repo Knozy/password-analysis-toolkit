@@ -27,8 +27,8 @@ def create_app(config_name='development'):
     CORS(app, resources={r"/api/*": {"origins": "*"}})
     
     # Register blueprints
-    from app.routes.web_routes import bp
-    app.register_blueprint(bp)
+    from app.routes.web_routes import bp as web_bp
+    app.register_blueprint(web_bp)
     from app.routes import auth_routes, analysis_routes, attack_routes, report_routes
     app.register_blueprint(auth_routes.bp)
     app.register_blueprint(analysis_routes.bp)

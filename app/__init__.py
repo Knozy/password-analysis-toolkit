@@ -26,6 +26,7 @@ def create_app(config_name='development'):
     db.init_app(app)
     
     # Register blueprints
+    from app.routes.web_routes import bp
     from app.routes import web_routes
     app.register_blueprint(web_routes.bp)
     from app.routes import auth_routes, analysis_routes, attack_routes, report_routes

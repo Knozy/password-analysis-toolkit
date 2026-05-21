@@ -1,9 +1,9 @@
-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 import os
 from datetime import datetime
-from app.core.password_analyzer import PasswordAnalyzer
+
 db = SQLAlchemy()
 
 def create_app(config_name='development'):
@@ -24,9 +24,9 @@ def create_app(config_name='development'):
     
     # Initialize extensions
     db.init_app(app)
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
     
     # Register blueprints
-    from app.routes.web_routes import bp
     from app.routes import web_routes
     app.register_blueprint(web_routes.bp)
     from app.routes import auth_routes, analysis_routes, attack_routes, report_routes
@@ -34,6 +34,7 @@ def create_app(config_name='development'):
     app.register_blueprint(analysis_routes.bp)
     app.register_blueprint(attack_routes.bp)
     app.register_blueprint(report_routes.bp)
+    
     # Create tables
     with app.app_context():
         db.create_all()
@@ -49,24 +50,3 @@ def create_app(config_name='development'):
         return {'error': 'Internal server error'}, 500
     
     return app
-
-
-# app/main.py
-from app import create_app, db
-import logging
-
-app = create_app('development')
-
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-
-if __name__ == '__main__':
-    app.run(
-        host='127.0.0.1',  # Localhost only
-        port=5000,
-        debug=True,
-        use_reloader=True
-    )
